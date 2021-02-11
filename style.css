@@ -5,6 +5,13 @@ html{
 body{
     color: white;
 }
+button{
+    height: 30px;
+    margin: 20px;
+    background-color: white;
+    border: 1px solid black;
+    border-radius: 5px;
+}
 .gameDisplay{
     width: 400px;
 }
