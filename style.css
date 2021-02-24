@@ -46,5 +46,6 @@ button{
 
 #message{
     text-align: center;
-    padding: 30px;
+    padding: 10px;
+    height: 30px;
 }
