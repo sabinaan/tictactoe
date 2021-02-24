@@ -13,6 +13,20 @@ const gameBoard = (() => {
         }
     }
     
+    const resetGameBoard = function(){
+        for (i = 0; i < 9; i++){
+            gameBoardArray[i] = "";
+        }
+    }
+    
+    const newGameClick = () => {
+        resetGameBoard()
+        rendering()
+        gameControll.resetProperties();
+    }
+
+    const newGameButton = document.querySelector("#newGameButton");
+    newGameButton.addEventListener("click", newGameClick);
 
 
     return {rendering, gameBoardArray}
@@ -38,6 +52,12 @@ const gameControll = (() => {
     const playerArray = [player1, player2]
     let currentPlayer = 0;
     let gameOver = false;
+
+    const resetProperties = function(){
+        gameOver = false;
+        currentPlayer = 0;
+        changeWinningMessage("reset")
+    }
 
     const changeCurrentPlayer = function(){
         if (currentPlayer == 0 ){
@@ -104,15 +124,14 @@ const gameControll = (() => {
         let messageContainer = document.querySelector("#message");
         if (gameOutcome === "win"){
             messageContainer.textContent = playerArray[currentPlayer].name + " won!";
-        } else{
+        } else if(gameOutcome === "draw"){
             messageContainer.textContent = "It's a draw! Try agin!"
+        } else if(gameOutcome === "reset"){
+            messageContainer.textContent = "";
         }
-        
-        
     }
-    
 
-    return{currentPlayer}
+    return{currentPlayer, resetProperties}
 })();
 
 
