@@ -37,8 +37,8 @@ gameBoard.rendering();
 
 //players
 
-function player(name, playerSymbol) {
-    return { name, playerSymbol };
+function player(name, playerSymbol, score) {
+    return { name, playerSymbol, score};
 }
 
 
@@ -47,8 +47,8 @@ function player(name, playerSymbol) {
 
 const gameControll = (() => {
 
-    const player1 = player("Player 1", "x")
-    const player2 = player("Player 2", "o")
+    const player1 = player("Player 1", "x", 0)
+    const player2 = player("Player 2", "o", 0)
     const playerArray = [player1, player2]
     let currentPlayer = 0;
     let gameOver = false;
@@ -100,9 +100,17 @@ const gameControll = (() => {
         }
         if (gameOver == true){
             changeWinningMessage("win");
+            changeScore();
         }
     }
     
+    const changeScore = function(){
+        let newScore = playerArray[currentPlayer].score + 1
+        playerArray[currentPlayer].score = newScore;
+        let scoreCell = document.querySelector(`#score${currentPlayer + 1}`);
+        scoreCell.textContent = newScore;
+        console.log(playerArray[currentPlayer].score)
+    }
 
     const addMarker = function(e){
         let index = parseInt(e.target.getAttribute("data-index"))
