@@ -25,8 +25,19 @@ const gameBoard = (() => {
         gameControll.resetProperties();
     }
 
+    const resetButtonClick = () => {
+        resetGameBoard()
+        rendering()
+        gameControll.resetProperties();
+        gameControll.resetPlayerScore();
+        
+    }
+
     const newGameButton = document.querySelector("#newGameButton");
     newGameButton.addEventListener("click", newGameClick);
+
+    const resetGameButton = document.querySelector("#resetButton");
+    resetGameButton.addEventListener("click", resetButtonClick);
 
 
     return {rendering, gameBoardArray}
@@ -56,7 +67,14 @@ const gameControll = (() => {
     const resetProperties = function(){
         gameOver = false;
         currentPlayer = 0;
-        changeWinningMessage("reset")
+        changeWinningMessage("reset");
+    }
+    const resetPlayerScore = function(){
+        for (i = 0; i < 1; i ++){
+            playerArray[i].score = 0;
+            let scoreCell = document.querySelector(`#score${i + 1}`);
+            scoreCell.textContent = 0;
+        }
     }
 
     const changeCurrentPlayer = function(){
@@ -139,7 +157,7 @@ const gameControll = (() => {
         }
     }
 
-    return{currentPlayer, resetProperties}
+    return{currentPlayer, resetProperties, resetPlayerScore}
 })();
 
 
