@@ -48,8 +48,8 @@ gameBoard.rendering();
 
 //players
 
-function player(name, playerSymbol, score) {
-    return { name, playerSymbol, score};
+function player(name, id, number, playerSymbol, score) {
+    return { name, id, number, playerSymbol, score};
 }
 
 
@@ -58,30 +58,45 @@ function player(name, playerSymbol, score) {
 
 const gameControll = (() => {
 
-    const player1 = player("Player 1", "x", 0)
-    const player2 = player("Player 2", "o", 0)
+    const player1 = player("Player 1","player1", 1,  "o", 0)
+    const player2 = player("Player 2", "player2", 2, "x", 0)
     const playerArray = [player1, player2]
-    let currentPlayer = 0;
+    let currentPlayer = playerArray[0];
     let gameOver = false;
 
     const resetProperties = function(){
         gameOver = false;
-        currentPlayer = 0;
+        currentPlayer = playerArray[0];
+        changeCurrentPlayerBorder()
         changeWinningMessage("reset");
     }
     const resetPlayerScore = function(){
-        for (i = 0; i < 1; i ++){
+        for (i = 0; i <= 1; i ++){
             playerArray[i].score = 0;
-            let scoreCell = document.querySelector(`#score${i + 1}`);
+            let scoreCell = document.querySelector(`#score${playerArray[i].number}`);
             scoreCell.textContent = 0;
         }
     }
 
     const changeCurrentPlayer = function(){
-        if (currentPlayer == 0 ){
-            currentPlayer = 1
-        } else if (currentPlayer == 1) {
-            currentPlayer = 0
+        if (currentPlayer == playerArray[0] ){
+            currentPlayer = playerArray[1]
+        } else {
+            currentPlayer = playerArray[0]
+        }
+        changeCurrentPlayerBorder()
+    }
+
+    const changeCurrentPlayerBorder = function(){
+        let currentPlayerDivArr = document.querySelectorAll(".player")
+        for( i = 0; i < 2; i++){
+            let player = currentPlayerDivArr[i]
+            if (player.id == currentPlayer.id){
+                player.classList.add("currentPlayer")
+            }else{
+                player.classList.remove("currentPlayer")
+            }
+            
         }
     }
 
@@ -101,7 +116,7 @@ const gameControll = (() => {
             changeWinningMessage("draw");
         }
 
-        let symbol = playerArray[currentPlayer].playerSymbol
+        let symbol = currentPlayer.playerSymbol
         for (let i = 0; i < 8; i++){
             let testCondition = winningConditions[i];
             let a = gameBoard.gameBoardArray[testCondition[0]];
@@ -123,17 +138,17 @@ const gameControll = (() => {
     }
     
     const changeScore = function(){
-        let newScore = playerArray[currentPlayer].score + 1
-        playerArray[currentPlayer].score = newScore;
-        let scoreCell = document.querySelector(`#score${currentPlayer + 1}`);
+        let newScore = currentPlayer.score + 1
+        currentPlayer.score = newScore;
+        let scoreCell = document.querySelector(`#score${currentPlayer.number}`);
         scoreCell.textContent = newScore;
-        console.log(playerArray[currentPlayer].score)
+        console.log(currentPlayer.score)
     }
 
     const addMarker = function(e){
         let index = parseInt(e.target.getAttribute("data-index"))
         if (!gameBoard.gameBoardArray[index] && !gameOver){
-            gameBoard.gameBoardArray[index] = playerArray[currentPlayer].playerSymbol
+            gameBoard.gameBoardArray[index] = currentPlayer.playerSymbol
             gameBoard.rendering()
             checkForWin()
             changeCurrentPlayer()
@@ -149,7 +164,7 @@ const gameControll = (() => {
     function changeWinningMessage(gameOutcome){
         let messageContainer = document.querySelector("#message");
         if (gameOutcome === "win"){
-            messageContainer.textContent = playerArray[currentPlayer].name + " won!";
+            messageContainer.textContent = currentPlayer.name + " won!";
         } else if(gameOutcome === "draw"){
             messageContainer.textContent = "It's a draw! Try agin!"
         } else if(gameOutcome === "reset"){

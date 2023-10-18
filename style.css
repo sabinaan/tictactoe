@@ -4,10 +4,12 @@ html{
 
 body{
     color: white;
+    max-height: 100vh;
 }
 button{
     height: 30px;
     margin: 20px;
+    margin-top: 10px;
     color: white;
     background-color:black;
     border: 1px solid white;
@@ -48,4 +50,13 @@ button{
     text-align: center;
     padding: 10px;
     height: 30px;
+}
+
+.player{
+    margin: 5px;
+    padding: 5px;
+}
+
+.currentPlayer {
+    border: white solid 1px;
 }
